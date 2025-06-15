@@ -5,8 +5,7 @@
 <p align="center">
   <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue.svg"/>
   <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"/>
-  <img alt="Expo" src="https://img.shields.io/badge/expo-51-purple"/>
-  <img alt="React Native" src="https://img.shields.io/badge/react--native-0.79-blue"/>
+  <img alt="Expo" src="https://img.shields.io/badge/expo-53-purple"/>
 </p>
 
 <p align="center">
@@ -21,7 +20,7 @@
 </p>
 <p align="center">
   <img src="assets/images/screenshots/Screenshot 2025-06-15 at 14.20.04.png" width="250" alt="Filipa AI - Main Chat Interface" />
-  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 14.29.34.png" width="250" alt="Filipa AI - Model & Provider Selection" />
+  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 14.37.15.png" width="250" alt="Filipa AI - Model & Provider Selection" />
   <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.30.17.png" width="250" alt="Filipa AI - MCP Tool Integration" />
 </p>
 
@@ -77,7 +76,7 @@ Ready to jump in? Follow these simple steps to get the project running locally.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/dnlbrgr/filipa.git
+git clone https://github.com/BeMoreDifferent/filipa.git
 cd filipa
 
 # 2. Install dependencies using pnpm

@@ -19,7 +19,11 @@
   <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.14.png" width="250" alt="Filipa AI - Model & Provider Selection" />
   <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.23.png" width="250" alt="Filipa AI - MCP Tool Integration" />
 </p>
-
+<p align="center">
+  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 14.20.04.png" width="250" alt="Filipa AI - Main Chat Interface" />
+  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 14.29.34.png" width="250" alt="Filipa AI - Model & Provider Selection" />
+  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.30.17.png" width="250" alt="Filipa AI - MCP Tool Integration" />
+</p>
 
 ---
 

@@ -10,15 +10,16 @@
 </p>
 
 <p align="center">
-  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.01.png" width="250" alt="Filipa AI - Main Chat Interface" />
-  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.14.png" width="250" alt="Filipa AI - Model & Provider Selection" />
-  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.23.png" width="250" alt="Filipa AI - MCP Tool Integration" />
-</p>
-<p align="center">
   <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.23.42.png" width="250" alt="Filipa AI - Settings Screen" />
   <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.23.51.png" width="250" alt="Filipa AI - Dark Mode" />
   <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.08.png" width="250" alt="Filipa AI - Conversation History" />
 </p>
+<p align="center">
+  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.01.png" width="250" alt="Filipa AI - Main Chat Interface" />
+  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.14.png" width="250" alt="Filipa AI - Model & Provider Selection" />
+  <img src="assets/images/screenshots/Screenshot 2025-06-15 at 13.24.23.png" width="250" alt="Filipa AI - MCP Tool Integration" />
+</p>
+
 
 ---
 
@@ -60,8 +61,8 @@ We are looking for passionate **developers, designers, testers, and AI enthusias
 
 **👉 How to Contribute:**
 1.  Familiarize yourself with the architecture by reading our **[Architecture Document (`ai/prd.md`)](./ai/prd.md)**.
-2.  Check out our [Project Board](https://github.com/users/dnlbrgr/projects/1) to see what we're working on.
-3.  Pick an open issue from the [Issues tab](https://github.com/dnlbrgr/filipa/issues) and feel free to ask questions.
+2.  Check out our [Project Board](https://github.com/users/BeMoreDifferent/projects/1) to see what we're working on.
+3.  Pick an open issue from the [Issues tab](https://github.com/BeMoreDifferent/filipa/issues) and feel free to ask questions.
 4.  Fork the repository and submit a pull request!
 
 Together, we can build an AI ecosystem that is open, interoperable, and respects user freedom.

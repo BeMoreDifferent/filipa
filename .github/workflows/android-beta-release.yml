@@ -1,0 +1,65 @@
+name: Android Beta Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*-beta*'
+
+env:
+  # Ensure PNPM generates reproducible builds
+  NODE_VERSION: '20'
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ env.NODE_VERSION }} with PNPM cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
+      - name: Install EAS CLI
+        run: pnpm dlx eas-cli@latest --version
+
+      - name: Build Android (EAS)
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          pnpm dlx eas-cli build \
+            --platform android \
+            --profile preview \
+            --non-interactive \
+            --json \
+            --output eas-build.json
+
+      - name: Download build artifact (.apk or .aab)
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          ARTIFACT_URL=$(jq -r '.[0].artifacts.buildUrl' eas-build.json)
+          echo "Artifact URL: $ARTIFACT_URL"
+          curl -fsSL "$ARTIFACT_URL" -o app-beta.apk
+
+      - name: Publish GitHub prerelease with APK attached
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          prerelease: true
+          generate_release_notes: true
+          name: Android Beta ${{ github.ref_name }}
+          artifacts: app-beta.apk
+          body: |
+            ⚠️ **Beta build.** This version is for testing only and may contain bugs.
+            
+            Please report issues in the repo and include the build tag `${{ github.ref_name }}`. 

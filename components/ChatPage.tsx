@@ -1,6 +1,6 @@
 // ChatPage.tsx
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Animated as RNAnimated } from 'react-native';
 import ReAnimated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import { FlashList } from '@shopify/flash-list';
@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useKeyboardHandler } from 'react-native-keyboard-controller';
 import { shallow } from 'zustand/shallow';
+import { useRouter } from 'expo-router';
 
 import ChatMessage from '@/components/chat/ChatMessage';
 import ChatInput, { ChatInputRef } from './chat/ChatInput';
@@ -27,6 +28,7 @@ const ChatPageInternal: React.FC = () => {
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
   const { colors } = useTheme();
+  const router = useRouter();
 
   // ---------- store selectors ----------
   const messages = useChatStore<Message[]>(s => s.messages);
@@ -57,6 +59,7 @@ const ChatPageInternal: React.FC = () => {
   });
   const spacerStyle = useAnimatedStyle(() => ({
     height: Math.max(keyboardHeight.value, insets.bottom),
+    backgroundColor: colors.card,
   }));
 
   // ----- fade-ins (RN Animated) -----
@@ -85,7 +88,10 @@ const ChatPageInternal: React.FC = () => {
     };
   }, [isDbInitialized]);
 
-  const isReady = isDbInitialized && hasApiKey && currentChatId;
+  // Screen is ready once the database is initialised **and** we have determined
+  // whether an API-key exists. A currentChatId is *not* required – this enables
+  // first-launch users to immediately see the NewChat UI and type a message.
+  const isReady = isDbInitialized && hasApiKey !== null;
 
   // screen fade
   useEffect(() => {
@@ -109,13 +115,13 @@ const ChatPageInternal: React.FC = () => {
   }, [showList, listFadeAnim]);
 
   useEffect(() => {
-    if (isReady && !showList) {
-      // Focus the ChatInput to open the keyboard
+    // Only open the keyboard when the user can actually send a message.
+    if (isReady && hasApiKey && !showList) {
       setTimeout(() => {
         chatInputRef.current?.focus();
-      }, 250); // Delay to ensure mount/animation
+      }, 250);
     }
-  }, [isReady, showList]);
+  }, [isReady, hasApiKey, showList]);
 
   const handleSend = useCallback(
     (txt: string) => {
@@ -153,15 +159,32 @@ const ChatPageInternal: React.FC = () => {
     }
   }, [messages]);
 
-  if (!isReady) return <View style={{ flex: 1, backgroundColor: colors.background }} />;
+  if (!isReady) {
+    // Still waiting for DB or API-key check ➟ keep background so splash doesn't flash.
+    return <View style={{ flex: 1, backgroundColor: colors.background }} />;
+  }
 
   return (
     <RNAnimated.View style={{ flex: 1, opacity: fadeAnim }}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={styles.contentArea}>
           {!hasApiKey ? (
-            <View style={[styles.flexOne, styles.centered]}>
-              <Text>API Key missing. Please configure one.</Text>
+            <View style={[styles.flexOne, styles.centered, { paddingHorizontal: 32 }]}> 
+              <Text style={{ color: colors.text, fontSize: 18, textAlign: 'center', marginBottom: 24 }}>
+                {t('chat.noApiKeyMessage')}
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push('/settings')}
+                accessibilityLabel={t('chat.goToSettingsButton')}
+                style={{
+                  backgroundColor: colors.primary,
+                  paddingVertical: 12,
+                  paddingHorizontal: 24,
+                  borderRadius: 8,
+                }}
+              >
+                <Text style={{ color: '#fff', fontWeight: '600' }}>{t('chat.goToSettingsButton')}</Text>
+              </TouchableOpacity>
             </View>
           ) : (
             <>

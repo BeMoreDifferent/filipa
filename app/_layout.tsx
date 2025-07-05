@@ -26,6 +26,7 @@ import { ChatHeaderRight } from '@/components/chat/ChatHeaderRight';
 import { ChatHeaderLeft } from '@/components/chat/ChatHeaderLeft';
 import ChatHeaderNewChat from '@/components/chat/ChatHeaderNewChat';
 import { hydrateToolsFromStorage, useMcpStore } from '@/store/mcpStore';
+import { StatusBar as NativeStatusBar } from 'react-native';
 
 const SQLiteLoadingFallback = () => {
   const { theme } = useTheme();
@@ -40,6 +41,7 @@ const SQLiteLoadingFallback = () => {
 };
 
 const getHeaderOptions = ({ theme, colors, title }: { theme: 'light' | 'dark'; colors: any; title: string }) => {
+  const extraTop = Platform.OS === 'android' ? ((NativeStatusBar.currentHeight ?? 0) * 0.4) : 0; // add ~40% of status bar height
   if (Platform.OS === 'ios') {
     return {
       headerBlurEffect: (theme === 'dark' ? 'dark' : 'light') as 'regular' | 'light' | 'dark',
@@ -48,20 +50,24 @@ const getHeaderOptions = ({ theme, colors, title }: { theme: 'light' | 'dark'; c
       headerTitleStyle: { color: colors.text, fontSize: CHAT_HEADER_FONT_SIZE, fontWeight: 'bold' as const },
       headerBackTitleStyle: { fontSize: CHAT_HEADER_FONT_SIZE, fontWeight: 'normal' as const },
       headerTintColor: colors.primary,
+      headerTitleAlign: 'center' as const,
     };
   }
   return {
-    headerStyle: { backgroundColor: colors.background },
+    headerStyle: { backgroundColor: colors.background, paddingTop: extraTop, height: 56 + extraTop },
     headerTitle: title,
     headerTitleStyle: { color: colors.text, fontSize: CHAT_HEADER_FONT_SIZE, fontWeight: 'bold' as const },
     headerTintColor: colors.primary,
     headerTransparent: false,
+    headerTitleAlign: 'center' as const,
+    headerTitleContainerStyle: { paddingTop: extraTop },
+    headerLeftContainerStyle: { marginTop: extraTop },
+    headerRightContainerStyle: { marginTop: extraTop },
   };
 };
 
 const RootLayoutNav = () => {
   const { colors, theme } = useTheme();
-  const router = useRouter();
   const modelSelectorRef = React.useRef<{ present: () => void }>(null);
   const selectedModelId = useChatStore(state => state.selectedModelId);
   const model = ModelStore.getModelById(selectedModelId);

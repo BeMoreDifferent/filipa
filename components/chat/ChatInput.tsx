@@ -99,12 +99,12 @@ const ChatInput = forwardRef<ChatInputRef, ChatInputProps>(
         const inputMinHeight = 44;
 
         return (
-            <View style={[
-                styles.container,
-                { 
-
-                }
-                ]}>
+            <View
+                style={[
+                    styles.container,
+                    Platform.OS === 'android' && { paddingBottom: bottomInset },
+                ]}
+            >
                 <View
                     style={[
                         styles.pill,
@@ -174,8 +174,7 @@ const styles = StyleSheet.create({
     pill: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 4,
-        paddingRight: 7,
+        paddingHorizontal: Spacing.md,
     },
     input: {
         flex: 1,

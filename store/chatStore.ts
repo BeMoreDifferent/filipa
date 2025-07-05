@@ -453,9 +453,17 @@ export const useChatStore = create<ChatState>((set, get) => ({
     }
   },
 
+  /**
+   * Updates the selected model in memory and, if the value is truthy, persists
+   * it via ModelStore.  This avoids calling `setLastSelectedModelId` with an
+   * empty or undefined id during first-launch when no model has been chosen
+   * yet, eliminating noisy console errors.
+   */
   setSelectedModelId: (modelId) => {
     set({ selectedModelId: modelId });
-    ModelStore.setLastSelectedModelId(modelId); // Persist selection
+    if (modelId) {
+      void ModelStore.setLastSelectedModelId(modelId);
+    }
   },
 
   /**

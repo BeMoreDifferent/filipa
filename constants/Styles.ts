@@ -7,13 +7,20 @@ import {
   // human, humanDense, humanTall, etc. could also be imported if needed
 } from 'react-native-typography';
 
-// --- Spacing ---
+// --- Platform scale helpers -------------------------------------------------
+const ANDROID_SCALE = Platform.OS === 'android' ? 1.15 : 1; // 15 % larger on Android
+
+const scale = (value: number): number => {
+  return Platform.OS === 'android' ? Math.round(value * ANDROID_SCALE) : value;
+};
+
+// --- Spacing ----------------------------------------------------------------
 export const Spacing = {
-  xs: 4,
-  sm: 8,
-  md: 16,
-  lg: 24,
-  xl: 32,
+  xs: scale(4),
+  sm: scale(8),
+  md: scale(16),
+  lg: scale(24),
+  xl: scale(32),
 };
 
 // --- Borders ---
@@ -54,24 +61,31 @@ export const defaultStyles = StyleSheet.create({
     paddingTop: Spacing.md,
   },
   textBody: {
-    ...material.body1Object, // Use material body1 style object
-    ...systemWeights.light, // Make default body text lighter for an elegant feel
-    // color: Colors.text, // Example: Override color from theme
+    ...material.body1Object,
+    fontSize: scale(material.body1Object.fontSize ?? 16),
+    lineHeight: scale(material.body1Object.lineHeight ?? 24),
+    ...systemWeights.light,
+    // color: Colors.text, // Example: Override color
   },
   textHeading: { // Base style for largest heading (h1 equivalent)
-    ...material.display1Object, // Using display1 for large headings
+    ...material.display1Object,
+    fontSize: scale(material.display1Object.fontSize ?? 34),
+    lineHeight: scale(material.display1Object.lineHeight ?? 40),
     ...systemWeights.bold, // Ensure bold weight consistently
     marginBottom: Spacing.md,
     // color: Colors.text, // Example: Override color
   },
   textSubheading: { // Base style for h2/h3 equivalent
-    ...material.headlineObject, // Using headline for subheadings
+    ...material.headlineObject,
+    fontSize: scale(material.headlineObject.fontSize ?? 24),
+    lineHeight: scale(material.headlineObject.lineHeight ?? 28),
     ...systemWeights.semibold, // Ensure semibold weight consistently
     marginBottom: Spacing.sm,
     // color: Colors.text, // Example: Override color
   },
   textCaption: {
     ...material.captionObject,
+    fontSize: scale(material.captionObject.fontSize ?? 12),
     // color: Colors.textMuted, // Example: Override color
   },
   textInput: { // Generic text input style
@@ -87,6 +101,7 @@ export const defaultStyles = StyleSheet.create({
   },
   textButton: { // Style for text that acts as a button
     ...material.buttonObject,
+    fontSize: scale(material.buttonObject.fontSize ?? 14),
     ...systemWeights.regular,
     // color: Colors.primary, // Applied via theme
   },
@@ -113,7 +128,8 @@ export const defaultStyles = StyleSheet.create({
     padding: Spacing.sm,
     minHeight: 44,
     // Apply text styles from the library
-    ...material.subheadingObject, // Use subheading or body1 for input text
+    ...material.subheadingObject,
+    fontSize: scale(material.subheadingObject.fontSize ?? 16),
     // color: Colors.text, // Example: Override color
     // placeholderTextColor: Colors.textMuted, // Example
   },

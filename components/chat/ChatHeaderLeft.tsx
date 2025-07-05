@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/providers/ThemeProvider';
 import { useRouter } from 'expo-router';
@@ -13,7 +13,7 @@ export const ChatHeaderLeft: React.FC = () => {
   return (
     <TouchableOpacity
       onPress={() => router.push('/chat-history')}
-      style={{ marginLeft: 0, width: 22, height: 22, borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}
+      style={{ marginLeft: Platform.OS === 'android' ? 16 : 0, width: 22, height: 22, borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}
       accessibilityLabel="View chat history"
       accessibilityRole="button"
     >
